@@ -103,20 +103,91 @@ export default async function Home() {
   return (
     <main className={`min-h-screen pb-16 ${mainBg} ${themeClasses} ${fontClasses} transition-all duration-500`}>
       
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes float-fluid-1 {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(40px, -60px) scale(1.1); }
+          66% { transform: translate(-30px, 40px) scale(0.9); }
+        }
+        @keyframes float-fluid-2 {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          50% { transform: translate(-50px, 60px) scale(1.15); }
+        }
+        @keyframes nebula-pulse {
+          0%, 100% { transform: scale(1) translate(0px, 0px); opacity: 0.08; }
+          50% { transform: scale(1.15) translate(30px, -40px); opacity: 0.15; }
+        }
+        @keyframes star-twinkle {
+          0%, 100% { opacity: 0.2; transform: scale(0.8); }
+          50% { opacity: 0.9; transform: scale(1.2); }
+        }
+        @keyframes geo-rotate-1 {
+          0% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-40px) rotate(180deg); }
+          100% { transform: translateY(0px) rotate(360deg); }
+        }
+        @keyframes geo-rotate-2 {
+          0% { transform: translateY(0px) rotate(360deg); }
+          50% { transform: translateY(50px) rotate(180deg); }
+          100% { transform: translateY(0px) rotate(0deg); }
+        }
+        @keyframes matrix-fall {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100vh); }
+        }
+        @keyframes scanline {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+        .animate-fluid-1 { animation: float-fluid-1 22s ease-in-out infinite; }
+        .animate-fluid-2 { animation: float-fluid-2 28s ease-in-out infinite; }
+        .animate-nebula { animation: nebula-pulse 18s ease-in-out infinite; }
+        .animate-twinkle { animation: star-twinkle 4s ease-in-out infinite; }
+        .animate-geo-1 { animation: geo-rotate-1 22s ease-in-out infinite; }
+        .animate-geo-2 { animation: geo-rotate-2 26s ease-in-out infinite; }
+        .animate-matrix-col { animation: matrix-fall 14s linear infinite; }
+        .animate-scanline { animation: scanline 7s linear infinite; }
+      `}} />
+
       {theme === "light" && (
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-br from-rose-200/20 via-amber-100/10 to-transparent rounded-full blur-3xl -z-10" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+          <div className="absolute top-[-50px] left-[-50px] w-[500px] h-[500px] bg-rose-200/15 rounded-full blur-3xl animate-fluid-1" />
+          <div className="absolute bottom-[-100px] right-[-100px] w-[600px] h-[600px] bg-amber-100/25 rounded-full blur-3xl animate-fluid-2" />
+        </div>
       )}
+
       {theme === "dark" && (
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[120px] -z-10" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+          <div className="absolute top-10 left-1/4 w-[500px] h-[500px] bg-emerald-500/5 rounded-full blur-[120px] animate-nebula" />
+          <div className="absolute bottom-20 right-1/4 w-[400px] h-[400px] bg-cyan-500/5 rounded-full blur-[100px] animate-nebula" style={{ animationDelay: "4s" }} />
+          <div className="absolute top-20 left-1/3 w-1 h-1 bg-white rounded-full animate-twinkle" />
+          <div className="absolute top-40 right-1/4 w-1.5 h-1.5 bg-white rounded-full animate-twinkle" style={{ animationDelay: "1.2s" }} />
+          <div className="absolute bottom-1/3 left-10 w-1 h-1 bg-white rounded-full animate-twinkle" style={{ animationDelay: "2.5s" }} />
+        </div>
       )}
+
       {theme === "slate" && (
-        <>
-          <div className="absolute top-[-100px] right-[-100px] w-[600px] h-[600px] bg-fuchsia-600/10 rounded-full blur-[150px] -z-10" />
-          <div className="absolute bottom-[200px] left-[-100px] w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[150px] -z-10" />
-        </>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+          <div className="absolute top-[-100px] right-[-100px] w-[600px] h-[600px] bg-fuchsia-600/10 rounded-full blur-[150px]" />
+          <div className="absolute bottom-[200px] left-[-100px] w-[500px] h-[500px] bg-violet-600/10 rounded-full blur-[150px]" />
+          <div className="absolute top-1/4 left-10 w-24 h-24 border border-fuchsia-500/10 rounded-xl animate-geo-1" />
+          <div className="absolute top-1/2 right-12 w-32 h-32 border border-violet-500/10 rounded-full animate-geo-2" />
+          <div className="absolute bottom-10 left-1/3 w-16 h-16 border border-indigo-500/10 rotate-45 animate-geo-1" />
+        </div>
       )}
+
       {theme === "forest" && (
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#022c22_1px,transparent_1px),linear-gradient(to_bottom,#022c22_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20 -z-10" />
+        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#022c22_1px,transparent_1px),linear-gradient(to_bottom,#022c22_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
+          <div className="absolute top-0 left-0 w-full h-[3px] bg-green-500/20 animate-scanline" />
+          <div className="flex justify-around opacity-[0.06] text-[11px] text-green-400 font-mono w-full h-full select-none">
+            <span className="relative animate-matrix-col" style={{ animationDelay: "1s" }}>010110010110</span>
+            <span className="relative animate-matrix-col" style={{ animationDelay: "3s" }}>100111010101</span>
+            <span className="relative animate-matrix-col" style={{ animationDelay: "6s" }}>001011100010</span>
+            <span className="relative animate-matrix-col" style={{ animationDelay: "2s" }}>110110010100</span>
+            <span className="relative animate-matrix-col" style={{ animationDelay: "5s" }}>011100101101</span>
+          </div>
+        </div>
       )}
 
       <div className="max-w-4xl mx-auto px-6 py-12 relative z-10">
@@ -131,7 +202,7 @@ export default async function Home() {
                 href={profile.resume_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase transition-all duration-300 shadow-sm ${buttonClasses}`}
+                className={`inline-flex items-center px-3 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase transition-all duration-300 shadow-md ${buttonClasses}`}
               >
                 View Resume →
               </a>
@@ -179,13 +250,31 @@ export default async function Home() {
                 className={`border rounded-xl p-5 flex flex-col md:flex-row gap-5 items-start transition-all duration-300 ${themeClasses}`}
               >
                 {project.image_url && (
-                  <div className="overflow-hidden rounded-lg border border-white/[0.05] w-full md:w-56 h-36 shrink-0 shadow-inner">
-                    <img
-                      src={project.image_url}
-                      alt={project.title}
-                      className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
+                  project.live_url ? (
+                    <a
+                      href={project.live_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative overflow-hidden rounded-lg border border-white/[0.05] w-full md:w-56 h-36 shrink-0 shadow-inner cursor-pointer block"
+                    >
+                      <img
+                        src={project.image_url}
+                        alt={project.title}
+                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/80 backdrop-blur-sm text-white text-[10px] font-semibold px-2.5 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-20 shadow-md transform translate-y-1 group-hover:translate-y-0">
+                        Visit project
+                      </div>
+                    </a>
+                  ) : (
+                    <div className="overflow-hidden rounded-lg border border-white/[0.05] w-full md:w-56 h-36 shrink-0 shadow-inner">
+                      <img
+                        src={project.image_url}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )
                 )}
                 <div className="flex-grow flex flex-col justify-between h-full w-full">
                   <div>
@@ -195,7 +284,7 @@ export default async function Home() {
                     </p>
                   </div>
                   <div className="mt-3">
-                    <div className="flex flex-wrap gap-1.5 mb-3">
+                    <div className="flex flex-wrap gap-1.5">
                       {project.tech_stack?.split(",").map((tech: string, idx: number) => {
                         const dotColor = getTechColor(tech, theme);
                         return (
@@ -205,28 +294,6 @@ export default async function Home() {
                           </span>
                         );
                       })}
-                    </div>
-                    <div className="flex gap-4 border-t pt-3 border-current/10">
-                      {project.live_url && (
-                        <a
-                          href={project.live_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs font-semibold text-sky-500 hover:text-sky-400 flex items-center gap-0.5 hover:underline"
-                        >
-                          Live Preview →
-                        </a>
-                      )}
-                      {project.github_url && (
-                        <a
-                          href={project.github_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs font-semibold text-slate-400 hover:text-slate-300 flex items-center gap-0.5 hover:underline"
-                        >
-                          Source Code
-                        </a>
-                      )}
                     </div>
                   </div>
                 </div>

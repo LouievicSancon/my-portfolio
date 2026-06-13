@@ -11,7 +11,6 @@ interface Project {
   description: string;
   tech_stack: string;
   live_url: string;
-  github_url: string;
   image_url?: string;
 }
 
@@ -32,7 +31,6 @@ export default function EditorPage() {
     description: "",
     tech_stack: "",
     live_url: "",
-    github_url: "",
     image_url: "",
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -111,7 +109,6 @@ export default function EditorPage() {
       description: "",
       tech_stack: "",
       live_url: "",
-      github_url: "",
       image_url: "",
     });
     setEditingId(null);
@@ -169,7 +166,6 @@ export default function EditorPage() {
       description: project.description,
       tech_stack: project.tech_stack,
       live_url: project.live_url || "",
-      github_url: project.github_url || "",
       image_url: project.image_url || "",
     });
   }
@@ -360,13 +356,6 @@ export default function EditorPage() {
             className="w-full px-4 py-2 border border-gray-300 rounded-md"
           />
           <input
-            type="url"
-            placeholder="GitHub URL (optional)"
-            value={form.github_url}
-            onChange={(e) => setForm({ ...form, github_url: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-md"
-          />
-          <input
             type="file"
             accept="image/*"
             onChange={(e) => setImageFile(e.target.files?.[0] || null)}
@@ -389,7 +378,6 @@ export default function EditorPage() {
                     description: "",
                     tech_stack: "",
                     live_url: "",
-                    github_url: "",
                     image_url: "",
                   });
                 }}
