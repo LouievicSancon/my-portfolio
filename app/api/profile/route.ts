@@ -1,14 +1,16 @@
 
 import { createClient } from "@/lib/supabase/server";
 
+const PROFILE_ID = "00000000-0000-0000-0000-000000000000";
+
 export async function GET() {
   const supabase = await createClient();
 
-  // Fetch all projects, newest first
   const { data, error } = await supabase
-    .from("projects")
+    .from("profile")
     .select("*")
-    .order("created_at", { ascending: false });
+    .eq("id", PROFILE_ID)
+    .single();
 
   if (error) {
     return Response.json({ error: error.message }, { status: 500 });
@@ -17,10 +19,10 @@ export async function GET() {
   return Response.json(data);
 }
 
-export async function POST(request: Request) {
+export async function PUT(request: Request) {
   const supabase = await createClient();
 
-  // Verify the user is logged in
+  // Verify the user is authenticated
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -31,17 +33,17 @@ export async function POST(request: Request) {
 
   const body = await request.json();
 
-  // Insert the new project into the database
   const { data, error } = await supabase
-    .from("projects")
-    .insert({
-      title: body.title,
-      description: body.description,
-      tech_stack: body.tech_stack,
-      live_url: body.live_url,
-      github_url: body.github_url,
-      image_url: body.image_url, // Keeps support for image uploads!
+    .from("profile")
+    .update({
+      name: body.name,
+      role: body.role,
+      skills: body.skills,
+      theme: body.theme,
+      font: body.font,
+      resume_url: body.resume_url, // Added this field!
     })
+    .eq("id", PROFILE_ID)
     .select()
     .single();
 
@@ -49,5 +51,5 @@ export async function POST(request: Request) {
     return Response.json({ error: error.message }, { status: 500 });
   }
 
-  return Response.json(data, { status: 201 });
+  return Response.json(data);
 }
